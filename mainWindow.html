@@ -24,12 +24,12 @@
       const itemText = document.createTextNode(item);
 
       li.appendChild(itemText);
-      document.querySelector('ul').appendChild(li);
+      ul.appendChild(li);
     });
 
     ipcRenderer.on('item:clear', function(){
       ul.className = '';
-      document.querySelector('ul').innerHTML = '';
+      ul.innerHTML = '';
     });
 
     ul.addEventListener('dblclick', removeItem);
