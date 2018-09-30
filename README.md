@@ -41,3 +41,7 @@ For Linux
 ```sh
 $ npm run package-linux
 ```
+
+### Supported languages
+  * English
+  * German

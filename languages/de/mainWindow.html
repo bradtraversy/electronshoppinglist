@@ -1,23 +1,27 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <title>ShoppingList</title>
+  <title>Einkaufsliste</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
 </head>
+
 <body>
   <nav>
     <div class="nav-wrapper">
-      <a class="brand-logo center">Shopping List</a>   
+      <a class="brand-logo center">Einkaufsliste</a>
     </div>
   </nav>
   <ul></ul>
 
   <script>
     const electron = require('electron');
-    const {ipcRenderer} = electron;
+    const {
+      ipcRenderer
+    } = electron;
     const ul = document.querySelector('ul');
 
-    ipcRenderer.on('item:add', function(e, item){
+    ipcRenderer.on('item:add', function(e, item) {
       ul.className = 'collection';
       const li = document.createElement('li');
       li.className = 'collection-item';
@@ -27,19 +31,20 @@
       ul.appendChild(li);
     });
 
-    ipcRenderer.on('item:clear', function(){
+    ipcRenderer.on('item:clear', function() {
       ul.className = '';
       ul.innerHTML = '';
     });
 
     ul.addEventListener('dblclick', removeItem);
 
-    function removeItem(e){
+    function removeItem(e) {
       event.target.remove();
-      if(ul.children.length == 0){
+      if (ul.children.length == 0) {
         ul.className = '';
       }
     }
   </script>
 </body>
+
 </html>
