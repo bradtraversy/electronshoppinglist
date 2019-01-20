@@ -7,7 +7,7 @@
 <body>
   <nav>
     <div class="nav-wrapper">
-      <a class="brand-logo center">Shopping List</a>   
+      <a class="brand-logo center">Shopping List</a>
     </div>
   </nav>
   <ul></ul>
@@ -16,14 +16,15 @@
     const electron = require('electron');
     const {ipcRenderer} = electron;
     const ul = document.querySelector('ul');
-
     ipcRenderer.on('item:add', function(e, item){
       ul.className = 'collection';
       const li = document.createElement('li');
       li.className = 'collection-item';
       const itemText = document.createTextNode(item);
-
+      var x = document.createElement('input');
+      x.type = "number";
       li.appendChild(itemText);
+      li.appendChild(x);
       ul.appendChild(li);
     });
 
