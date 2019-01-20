@@ -10,6 +10,8 @@
       <div>
         <label>Enter Item</label>
         <input type="text" id="item" autofocus>
+        <label>Enter Price</label>
+        <input type="number" id="price" autofocus>
       </div>
       <button class="waves-effect waves-light btn" type="submit">Add Item</button>
     </form>
@@ -24,8 +26,13 @@
     function submitForm(e){
       e.preventDefault();
       const item = document.querySelector('#item').value;
+      const price = document.querySelector('#price').value;
+      var transfer = {
+        item: item,
+        price: price
+      };
       console.log(ipcRenderer);
-      ipcRenderer.send('item:add', item);
+      ipcRenderer.send('item:add',transfer);
     }
   </script>
 </body>

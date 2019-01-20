@@ -11,26 +11,33 @@
     </div>
   </nav>
   <ul></ul>
-
+  <u2 id = "totalPriceLabel"></u2>
   <script>
     const electron = require('electron');
     const {ipcRenderer} = electron;
     const ul = document.querySelector('ul');
-    ipcRenderer.on('item:add', function(e, item){
+    var totalPrice = 0;
+    ipcRenderer.on('item:add', function(e, transfer){
       ul.className = 'collection';
       const li = document.createElement('li');
       li.className = 'collection-item';
-      const itemText = document.createTextNode(item);
+      const itemText = document.createTextNode(transfer.item);
       var x = document.createElement('input');
       x.type = "number";
+      totalPrice = totalPrice + parseInt(transfer.price);
+      var pricesText = document.createTextNode('                        $'+transfer.price);
       li.appendChild(itemText);
+      li.appendChild(pricesText);
       li.appendChild(x);
       ul.appendChild(li);
+      document.getElementById("totalPriceLabel").innerHTML ='                        Total Price:   $'+ totalPrice;
     });
 
     ipcRenderer.on('item:clear', function(){
       ul.className = '';
       ul.innerHTML = '';
+      totalPrice = 0;
+        document.getElementById("totalPriceLabel").innerHTML ='                        Total Price:   $'+ totalPrice;
     });
 
     ul.addEventListener('dblclick', removeItem);
