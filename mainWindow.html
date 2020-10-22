@@ -1,45 +1,81 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-  <title>ShoppingList</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>shopping list</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 </head>
+
 <body>
-  <nav>
-    <div class="nav-wrapper">
-      <a class="brand-logo center">Shopping List</a>   
-    </div>
-  </nav>
-  <ul></ul>
+    <nav>
+        <div class="nav-wrapper">
+            <a class="brand-logo center">Shopping List</a>
+        </div>
+    </nav>
 
-  <script>
-    const electron = require('electron');
-    const {ipcRenderer} = electron;
-    const ul = document.querySelector('ul');
+    <ul>
 
-    ipcRenderer.on('item:add', function(e, item){
-      ul.className = 'collection';
-      const li = document.createElement('li');
-      li.className = 'collection-item';
-      const itemText = document.createTextNode(item);
+    </ul>
 
-      li.appendChild(itemText);
-      ul.appendChild(li);
-    });
-
-    ipcRenderer.on('item:clear', function(){
-      ul.className = '';
-      ul.innerHTML = '';
-    });
-
-    ul.addEventListener('dblclick', removeItem);
-
-    function removeItem(e){
-      event.target.remove();
-      if(ul.children.length == 0){
-        ul.className = '';
-      }
-    }
-  </script>
 </body>
+<script>
+    const electron = require('electron');
+    const {
+        ipcRenderer
+    } = electron;
+    const ul = document.querySelector('ul');
+    ipcRenderer.on('item:add', (e, item) => {
+        ul.className = 'collection';
+        localStorage.setItem(`saved-${item}`, item);
+        pullData();
+
+    });
+    ipcRenderer.on('item:clear', () => {
+        localStorage.clear()
+        ul.className = '';
+        pullData()
+    })
+
+
+    const pullData = () => {
+        ul.innerHTML = '';
+        if (localStorage.length > 0) {
+            ul.className = 'collection';
+        }
+        for (var i = 0; i < localStorage.length; i++) {
+            if (localStorage.key(i).startsWith('saved')) {
+                const li = document.createElement('li');
+                li.innerHTML =
+                    `${localStorage.getItem(localStorage.key(i))} <a style='cursor:pointer' class='secondary-content'
+                        data-card='saved-${localStorage.getItem(localStorage.key(i))}'><i
+                            class="material-icons">delete</i></a>`;
+                li.className = 'collection-item'
+                ul.appendChild(li);
+            }
+        };
+        remove();
+    };
+    pullData();
+
+    function remove() {
+        var buttons = document.querySelectorAll('.secondary-content');
+
+        function removeThis(element) {
+            localStorage.removeItem(`${element.getAttribute('data-card')}`);
+            pullData();
+
+        }
+        for (let i = 0, len = buttons.length; i < len; i++) {
+            buttons[i].addEventListener('click', function (event) {
+                removeThis(this);
+            })
+        }
+    }
+    remove();
+</script>
+
 </html>
