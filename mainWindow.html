@@ -7,7 +7,7 @@
 <body>
   <nav>
     <div class="nav-wrapper">
-      <a class="brand-logo center">Shopping List</a>   
+      <a class="brand-logo center">Shopping List</a>
     </div>
   </nav>
   <ul></ul>
@@ -25,6 +25,7 @@
 
       li.appendChild(itemText);
       ul.appendChild(li);
+
     });
 
     ipcRenderer.on('item:clear', function(){

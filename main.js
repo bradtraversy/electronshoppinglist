@@ -52,9 +52,9 @@ function createAddWindow(){
 // Catch item:add
 ipcMain.on('item:add', function(e, item){
   mainWindow.webContents.send('item:add', item);
-  addWindow.close(); 
+  addWindow.close();
   // Still have a reference to addWindow in memory. Need to reclaim memory (Grabage collection)
-  //addWindow = null;
+  addWindow = null;
 });
 
 // Create menu template
